@@ -1,0 +1,162 @@
+<!doctype html>
+<title>Hacker Combat Web</title>
+<link rel="stylesheet" href="style.css">
+<!-- <link rel="stylesheet" href="user.css"> -->
+
+<h1>
+  <div style="float:left;">
+    Hacker Combat
+  </div>
+  <div style="float:right;">
+    <span> Player: </span>
+    <input type="text" id="input" value="jovi" disabled="disabled" /> &nbsp;
+    <span> Opponent: </span>
+    <input type="text" id="input" value="jovi" disabled="disabled" /> &nbsp;
+    <span> Game IP: </span>
+    <input type="text" id="gip" value="127.0.0.1" />
+  </div>
+</h1>
+
+<div id="help">
+  <div id="content"></div>
+  <!-- <div class="contentCopy">
+      <span> playerName </span>
+      <input type="text" id="input" value="jovi" disabled="disabled" />
+  </div>
+  <span> Ip Address </span>
+  <input type="text" id="ip" value="127.0.0.1" /> -->
+    <ul>
+    <li><a href="#" onclick="ShowModalPopup('captureunit'); return false;">Capture Unit</a></li>
+    <li><a href="#" onclick="ShowModalPopup('enterunit'); return false;">Enter Unit</a></li>
+    <li><a href="#" onclick="ShowModalPopup('oppip'); return false;">Get Opponent IP</a></li>
+    <li><a href="#" onclick="ShowModalPopup('plip'); return false;">Get Player IP</a></li>
+    </ul>
+  <hr>
+  <p>Click the titlebar to drag.</p>
+  <p>Double-click titlebar to maximize.</p>
+  <p>Click the lower-right corner to resize.</p>
+  <p>Click the tilde to open a new tab.</p>
+  <p>Click the tilde with a modifier to close the window.</p>
+</div>
+
+<button id="open">Open Terminal</button>
+<button id="lights">Light Switch</button>
+
+
+<div id="captureunit" class="modalWindow">
+    <h2>To submit a proof-of-exploitation, enter the opponent's unit fingerprint</h2>
+    <p>Click <a href="#" onclick="HideModalPopup('captureunit'); return false;">HERE</a> to close the window</p>
+</div>
+
+<div id="enterunit" class="modalWindow">
+    <h2>Use the following command to ssh into one of your units</h2>
+    <p>Click <a href="#" onclick="HideModalPopup('enterunit'); return false;">HERE</a> to close the window</p>
+</div>
+
+<div id="oppip" class="modalWindow">
+    <h2>This is your opponent's IP Address</h2>
+    <p>Click <a href="#" onclick="HideModalPopup('oppip'); return false;">HERE</a> to close the window</p>
+</div>
+
+<div id="plip" class="modalWindow">
+    <h2>This is your IP Address</h2>
+    <p>Click <a href="#" onclick="HideModalPopup('plip'); return false;">HERE</a> to close the window</p>
+</div>
+
+
+
+
+<script>
+//Modal popup background ID. This is global scope and
+//This value should be unique so that it does not conflict with other IDs in the page.
+var _ModalPopupBackgroundID = 'backgroundPopup_XYZ_20110418_Custom';
+
+function ShowModalPopup(modalPopupID) {
+
+    //Setting modal popup window
+
+    //Boolean to detect IE6.
+    var isIE6 = (navigator.appVersion.toLowerCase().indexOf('msie 6') > 0);
+
+    var popupID = "#" + modalPopupID;
+
+    //Get popup window margin top and left
+    var popupMarginTop = $(popupID).height() / 2;
+    var popupMarginLeft = $(popupID).width() / 2;
+
+    //Set popup window left and z-index
+    //z-index of modal popup window should be higher than z-index of modal background
+    $(popupID).css({
+        'left': '50%',
+        'z-index': 9999
+    });
+
+    //Special case for IE6 because it does not understand position: fixed
+    if (isIE6) {
+        $(popupID).css({
+            'top': $(document).scrollTop(),
+            'margin-top': $(window).height() / 2 - popupMarginTop,
+            'margin-left': -popupMarginLeft,
+            'display': 'block',
+            'position': 'absolute'
+        });
+    }
+    else {
+        $(popupID).css({
+            'top': '50%',
+            'margin-top': -popupMarginTop,
+            'margin-left': -popupMarginLeft,
+            'display': 'block',
+            'position': 'fixed'
+        });
+    }
+
+    //Automatically adding modal background to the page.
+    var backgroundSelector = $('<div id="' + _ModalPopupBackgroundID + '" ></div>');
+
+    //Add modal background to the body of the page.
+    backgroundSelector.appendTo('body');
+
+    //Set CSS for modal background. Set z-index of background lower than popup window.
+    backgroundSelector.css({
+        'width': $(document).width(),
+        'height': $(document).height(),
+        'display': 'none',
+        'background-color': '#555555',
+        'position': 'absolute',
+        'top': 0,
+        'left': 0,
+        'z-index': 9990
+    });
+
+    backgroundSelector.fadeTo('fast', 0.8);
+}
+
+function HideModalPopup(modalPopupID) {
+    //Hide modal popup window
+    $("#" + modalPopupID).css('display', 'none');
+
+    //Remove modal background from DOM.
+    $("#" + _ModalPopupBackgroundID).remove();
+}
+</script>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+<script src="http://v4-alpha.getbootstrap.com/dist/js/bootstrap.min.js"></script>
+<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+<script src="http://v4-alpha.getbootstrap.com/assets/js/vendor/holder.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="http://v4-alpha.getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+
+<script src="socket.io/socket.io.js"></script>
+<script src="term.js"></script>
+<script src="options.js"></script>
+<script src="tty.js"></script>
+<!-- <script src="user.js"></script> -->
+<script src="frontend.js"></script>
